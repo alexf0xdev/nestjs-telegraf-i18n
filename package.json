@@ -36,6 +36,5 @@
   },
   "bugs": {
     "url": "https://github.com/sgerodes/nestjs-telegraf-i18n/issues"
-  },
-  "files": ["dist"]
+  }
 }
