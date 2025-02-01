@@ -1,0 +1,1 @@
+export const placeholder = 'nestjs-telegraf-i18n';
