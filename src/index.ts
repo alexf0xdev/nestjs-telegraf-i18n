@@ -1,1 +1,2 @@
-export const placeholder = 'nestjs-telegraf-i18n';
+export * from './telegraf-i18n.context';
+export * from './telegraf-i18n.middleware';
