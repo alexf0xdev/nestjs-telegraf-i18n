@@ -21,7 +21,7 @@ npm install nestjs-telegraf telegraf nestjs-i18n
     imports: [
         I18nModule.forRoot({
             ...
-        }).
+        })
     ],
 })
 export class AppModule {}
