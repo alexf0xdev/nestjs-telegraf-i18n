@@ -14,7 +14,20 @@ npm install nestjs-telegraf telegraf nestjs-i18n
 
 ## Initialization
 
-### Provide the Module with the i18n extended context and add the new middleware that injects the i18n context into the Telegraf context
+### Initialize your I18nModule as you would usually do
+
+```typescript
+@Module({
+    imports: [
+        I18nModule.forRoot({
+            ...
+        }).
+    ],
+})
+export class AppModule {}
+```
+
+### Provide the Telegraf Module with the i18n extended context and add the new middleware that injects the i18n context into the Telegraf context
 Sync
 ```typescript
 @Module({
