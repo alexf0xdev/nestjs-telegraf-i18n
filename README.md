@@ -15,6 +15,7 @@ npm install nestjs-telegraf telegraf nestjs-i18n
 ## Initialization
 
 ### Initialize your I18nModule as you would usually do
+The [official documentation](https://nestjs-i18n.com/quick-start) provides a good explanation how to do it 
 
 ```typescript
 @Module({
