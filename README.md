@@ -28,7 +28,7 @@ pnpm add nestjs-telegraf telegraf nestjs-i18n
 ## Initialization
 
 ### Nestjs-i18n Module
-Initialize your I18nModule as you would usually do
+Initialize your I18nModule as you would usually do. 
 The [official documentation](https://nestjs-i18n.com/quick-start) provides good tutorials how to do it 
 
 ```typescript
