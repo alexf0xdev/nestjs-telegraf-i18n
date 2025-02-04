@@ -1,21 +1,34 @@
 # nestjs-telegraf-i18n
 
 Seamless mix of [nestjs-telegraf](https://www.npmjs.com/package/nestjs-telegraf) and [nestjs-i18n](https://www.npmjs.com/package/nestjs-i18n)
-
+Use your favorite package manager
 ```shell
 npm install nestjs-telegraf-i18n
 ```
+```shell
+yarn add nestjs-telegraf-i18n
+```
+```shell
+pnpm add nestjs-telegraf-i18n
+```
 
 ## Prerequisites
-- installed nestjs-telegraf, telegraf, nestjs-i18n
+Make sure you have nestjs-telegraf, nestjs-i18n, and telegraf installed
 ```shell
 npm install nestjs-telegraf telegraf nestjs-i18n
+```
+```shell
+yarn add nestjs-telegraf telegraf nestjs-i18n
+```
+```shell
+pnpm add nestjs-telegraf telegraf nestjs-i18n
 ```
 
 ## Initialization
 
-### Initialize your I18nModule as you would usually do
-The [official documentation](https://nestjs-i18n.com/quick-start) provides a good explanation how to do it 
+### Nestjs-i18n Module
+Initialize your I18nModule as you would usually do
+The [official documentation](https://nestjs-i18n.com/quick-start) provides good tutorials how to do it 
 
 ```typescript
 @Module({
@@ -28,8 +41,10 @@ The [official documentation](https://nestjs-i18n.com/quick-start) provides a goo
 export class AppModule {}
 ```
 
-### Provide the Telegraf Module with the i18n extended context and add the new middleware that injects the i18n context into the Telegraf context
-Sync
+### Nestjs-Telegraf Module
+Provide the Telegraf Module with the i18n extended context and add the new middleware that will combine the i18n context and the telegraf context
+
+Synchronous Setup
 ```typescript
 @Module({
     imports: [
@@ -45,7 +60,7 @@ Sync
 export class TelegramModule {}
 ```
 
-Or Async
+Asynchronous Setup
 ```typescript
 @Module({
     imports: [
@@ -65,9 +80,9 @@ export class TelegramModule {}
 
 ## Usage
 
-The middleware will inject the i18n object into the Telegraf context. 
-In your function make the ctx aware that it has the object by providing the type `TelegrafI18nContext`
-If you have multiple telegraf context types chain them with `&`
+The middleware injects the i18n object into the Telegraf context with the context-specific language configuration. 
+In your function make the ctx type aware that it has the i18n object by providing the type `TelegrafI18nContext`
+If you have multiple Telegraf context types that you want to use, chain them with `&`.
 
 ```typescript
 import { Scenes } from 'telegraf';
@@ -77,18 +92,56 @@ import { TelegrafI18nContext } from "nestjs-telegraf-i18n";
 @Update()
 export class BotUpdate {
     @Start()
-    async start_command(@Ctx() ctx: Scenes.WizardContext & TelegrafI18nContext) {
+    async start_command(@Ctx() ctx: TelegrafI18nContext) {
         const internationalized_hello_message = ctx.i18n.t("i18n.menus.hello.message");
         await ctx.reply(internationalized_hello_message);
+    }
+}
+```
+
+```typescript
+import { Scenes } from 'telegraf';
+import { Ctx, Start, Update } from 'nestjs-telegraf';
+import { TelegrafI18nContext } from "nestjs-telegraf-i18n";
+
+@Update()
+export class BotUpdate {
+    @Command('hello')
+    async helloCommand(@Ctx() ctx: Scenes.WizardContext & TelegrafI18nContext) {
+        // You have access to both the WizardContext and TelegrafI18nContext internals
     }
 }
 
 ```
 
+### Bot injection
+If you need to [use the native bot instance](https://nestjs-telegraf.0x467.com/extras/bot-injection.html),
+you can still benefit from the injected i18n instance by providing the correct context.
+
+```typescript
+import { TelegrafI18nContext } from "nestjs-telegraf-i18n";
+import { I18nTranslations } from '@i18n/i18n.generated';
+
+@Update()
+export class BotUpdate {
+    private readonly logger = new Logger(this.constructor.name);
+
+    constructor(
+        @InjectBot() private readonly bot: Telegraf<TelegrafI18nContext>
+    ) {
+        this.bot.help((ctx) => {
+                const message = ctx.i18n.t("i18n.menus.help.message");
+                ctx.reply(message)
+            }
+        )
+    }
+}
+```
+
 ## Type Safety
 
 You can use the built in [type safety features from nestjs-i18n](https://nestjs-i18n.com/guides/type-safety)
-Follow their instruction to generate the translations type and you can pass it to the extended context.
+Follow their instructions to generate the translation types, and you can pass them to the extended context.
 
 ```typescript
 import { Scenes } from 'telegraf';
@@ -102,6 +155,27 @@ export class BotUpdate {
     async start_command(@Ctx() ctx: Scenes.WizardContext & TelegrafI18nContext<I18nTranslations>) {
         const internationalized_hello_message = ctx.i18n.t("i18n.menus.hello.message");
         await ctx.reply(internationalized_hello_message);
+    }
+}
+```
+
+The same applies to native bot injection.
+```typescript
+import { TelegrafI18nContext } from "nestjs-telegraf-i18n";
+import { I18nTranslations } from './generated/i18n.generated.ts';
+
+@Update()
+export class BotUpdate {
+    private readonly logger = new Logger(this.constructor.name);
+
+    constructor(
+        @InjectBot() private readonly bot: Telegraf<TelegrafI18nContext<I18nTranslations>>
+    ) {
+        this.bot.help((ctx) => {
+                const message = ctx.i18n.t("i18n.menus.help.message");
+                ctx.reply(message)
+            }
+        )
     }
 }
 ```
