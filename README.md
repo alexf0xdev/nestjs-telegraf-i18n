@@ -1,6 +1,6 @@
 # nestjs-telegraf-i18n
 
-Seamless mix of [nestjs-telegraf](https://www.npmjs.com/package/nestjs-telegraf) and [nestjs-i18n](https://www.npmjs.com/package/nestjs-i18n)
+Seamless integration of [nestjs-telegraf](https://www.npmjs.com/package/nestjs-telegraf) and [nestjs-i18n](https://www.npmjs.com/package/nestjs-i18n)
 
 Use your favorite package manager
 ```shell
