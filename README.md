@@ -47,6 +47,10 @@ Provide the Telegraf Module with the i18n extended context and add the new middl
 
 Synchronous Setup
 ```typescript
+import { Module } from '@nestjs/common';
+import { TelegrafModule } from 'nestjs-telegraf';
+import { TelegrafI18nMiddleware, TelegrafI18nContext } from 'nestjs-telegraf-i18n';
+
 @Module({
     imports: [
         TelegrafModule.forRoot({
@@ -63,6 +67,10 @@ export class TelegramModule {}
 
 Asynchronous Setup
 ```typescript
+import { Module } from '@nestjs/common';
+import { TelegrafModule } from 'nestjs-telegraf';
+import { TelegrafI18nMiddleware, TelegrafI18nContext } from 'nestjs-telegraf-i18n';
+
 @Module({
     imports: [
         TelegrafModule.forRootAsync({
@@ -77,6 +85,7 @@ Asynchronous Setup
     providers: [ TelegrafI18nMiddleware ],
 })
 export class TelegramModule {}
+
 ```
 
 ## Usage
@@ -102,8 +111,8 @@ export class BotUpdate {
 ```
 
 ```typescript
-import { Scenes } from 'telegraf';
-import { Ctx, Update, Command } from 'nestjs-telegraf';
+import {Command, Ctx, Update} from 'nestjs-telegraf';
+import {Scenes} from "telegraf";
 import { TelegrafI18nContext } from 'nestjs-telegraf-i18n';
 
 @Update()
@@ -111,6 +120,9 @@ export class BotUpdate {
     @Command('hello')
     async helloCommand(@Ctx() ctx: Scenes.WizardContext & TelegrafI18nContext) {
         // You have access to both the WizardContext and TelegrafI18nContext internals
+        const internationalized_message = ctx.i18n.t("i18n.menus.hello.message");
+        await ctx.reply(internationalized_message);
+        await ctx.scene.enter('some_scene');
     }
 }
 
@@ -121,13 +133,12 @@ If you need to [use the native bot instance](https://nestjs-telegraf.0x467.com/e
 you can still benefit from the injected i18n instance by providing the correct context.
 
 ```typescript
+import { Telegraf } from "telegraf";
+import { InjectBot, Update } from 'nestjs-telegraf';
 import { TelegrafI18nContext } from 'nestjs-telegraf-i18n';
-import { I18nTranslations } from './generated/i18n.generated.ts';
 
 @Update()
 export class BotUpdate {
-    private readonly logger = new Logger(this.constructor.name);
-
     constructor(
         @InjectBot() private readonly bot: Telegraf<TelegrafI18nContext>
     ) {
@@ -146,15 +157,14 @@ You can use the built in [type safety features from nestjs-i18n](https://nestjs-
 Follow their instructions to generate the translation types, and you can pass them to the extended context.
 
 ```typescript
-import { Scenes } from 'telegraf';
 import { Ctx, Start, Update } from 'nestjs-telegraf';
+import { I18nTranslations } from './generated/i18n.generated';
 import { TelegrafI18nContext } from 'nestjs-telegraf-i18n';
-import { I18nTranslations } from './generated/i18n.generated.ts';
 
 @Update()
 export class BotUpdate {
     @Start()
-    async start_command(@Ctx() ctx: Scenes.WizardContext & TelegrafI18nContext<I18nTranslations>) {
+    async start_command(@Ctx() ctx: TelegrafI18nContext<I18nTranslations>) {
         const internationalized_message = ctx.i18n.t("i18n.menus.hello.message");
         await ctx.reply(internationalized_message);
     }
@@ -163,13 +173,13 @@ export class BotUpdate {
 
 The same applies to native bot injection.
 ```typescript
+import { I18nTranslations } from './generated/i18n.generated';
+import { InjectBot, Update } from "nestjs-telegraf";
+import { Telegraf } from "telegraf";
 import { TelegrafI18nContext } from 'nestjs-telegraf-i18n';
-import { I18nTranslations } from './generated/i18n.generated.ts';
 
 @Update()
 export class BotUpdate {
-    private readonly logger = new Logger(this.constructor.name);
-
     constructor(
         @InjectBot() private readonly bot: Telegraf<TelegrafI18nContext<I18nTranslations>>
     ) {
