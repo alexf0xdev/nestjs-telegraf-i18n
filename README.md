@@ -55,6 +55,7 @@ import { TelegrafI18nModule, TelegrafI18nMiddlewareProvider, TelegrafI18nContext
     imports: [
         TelegrafI18nModule,
         TelegrafModule.forRootAsync({
+            inject: [TelegrafI18nMiddlewareProvider],
             useFactory: (telegrafI18nMiddlewareProvider: TelegrafI18nMiddlewareProvider) => ({
                 token: "<your_bot_token>",
                 options: {
