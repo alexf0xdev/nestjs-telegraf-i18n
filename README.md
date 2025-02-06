@@ -45,44 +45,27 @@ export class AppModule {}
 ### Nestjs-Telegraf Module
 Provide the Telegraf Module with the i18n extended context and add the new middleware that will combine the i18n context and the telegraf context
 
-Synchronous Setup
+
 ```typescript
 import { Module } from '@nestjs/common';
 import { TelegrafModule } from 'nestjs-telegraf';
-import { TelegrafI18nMiddleware, TelegrafI18nContext } from 'nestjs-telegraf-i18n';
+import { TelegrafI18nModule, TelegrafI18nMiddlewareProvider, TelegrafI18nContext } from 'nestjs-telegraf-i18n';
 
 @Module({
     imports: [
-        TelegrafModule.forRoot({
-            token: "<your_bot_token>",
-            options: {
-                contextType: TelegrafI18nContext,
-            },
-        }),
-    ],
-    providers: [ TelegrafI18nMiddleware ],
-})
-export class TelegramModule {}
-```
-
-Asynchronous Setup
-```typescript
-import { Module } from '@nestjs/common';
-import { TelegrafModule } from 'nestjs-telegraf';
-import { TelegrafI18nMiddleware, TelegrafI18nContext } from 'nestjs-telegraf-i18n';
-
-@Module({
-    imports: [
+        TelegrafI18nModule,
         TelegrafModule.forRootAsync({
-            useFactory: () => ({
+            useFactory: (telegrafI18nMiddlewareProvider: TelegrafI18nMiddlewareProvider) => ({
                 token: "<your_bot_token>",
                 options: {
                     contextType: TelegrafI18nContext,
                 },
+                middlewares: [
+                    telegrafI18nMiddlewareProvider.telegrafI18nMiddleware,
+                ],
             }),
         }),
     ],
-    providers: [ TelegrafI18nMiddleware ],
 })
 export class TelegramModule {}
 
@@ -94,7 +77,6 @@ The middleware injects the i18n object into the Telegraf context with the contex
 
 In your function make the ctx type aware that it has the i18n object by providing the type `TelegrafI18nContext`
 
-If you have multiple Telegraf context types that you want to use, chain them with `&`.
 
 ```typescript
 import { Ctx, Start, Update } from 'nestjs-telegraf';
@@ -109,6 +91,8 @@ export class BotUpdate {
     }
 }
 ```
+
+If you have multiple Telegraf context types that you want to use, chain them with `&`.
 
 ```typescript
 import {Command, Ctx, Update} from 'nestjs-telegraf';

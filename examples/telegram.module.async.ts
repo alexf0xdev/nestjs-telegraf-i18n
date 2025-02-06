@@ -1,19 +1,22 @@
 import { Module } from '@nestjs/common';
 import { TelegrafModule } from 'nestjs-telegraf';
-import { TelegrafI18nMiddleware, TelegrafI18nContext } from '../src';
-// import { TelegrafI18nMiddleware, TelegrafI18nContext } from 'nestjs-telegraf-i18n';
+import { TelegrafI18nModule, TelegrafI18nMiddlewareProvider, TelegrafI18nContext } from '../src';
+// import { TelegrafI18nModule, TelegrafI18nMiddlewareProvider, TelegrafI18nContext } from 'nestjs-telegraf-i18n';
 
 @Module({
   imports: [
+    TelegrafI18nModule,
     TelegrafModule.forRootAsync({
-      useFactory: () => ({
+      useFactory: (telegrafI18nMiddlewareProvider: TelegrafI18nMiddlewareProvider) => ({
         token: "<your_bot_token>",
         options: {
           contextType: TelegrafI18nContext,
         },
+        middlewares: [
+          telegrafI18nMiddlewareProvider.telegrafI18nMiddleware,
+        ],
       }),
     }),
   ],
-  providers: [ TelegrafI18nMiddleware ],
 })
 export class TelegramModule {}
