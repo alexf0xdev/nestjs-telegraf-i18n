@@ -43,8 +43,13 @@ export class AppModule {}
 ```
 
 ### Nestjs-Telegraf Module
-Provide the Telegraf Module with the i18n extended context and add the new middleware that will combine the i18n context and the telegraf context
+- Add TelegrafI18nModule to the imports
+- Only async setups for the TelegrafModule are possible. Use TelegrafModule.forRootAsync(...)
+- Inject the TelegrafI18nMiddlewareProvider
+- Provide the Telegraf Module with the i18n extended context
+- Add the telegrafI18nMiddleware to the middleware array
 
+The new middleware that will combine the i18n context and the telegraf context.
 
 ```typescript
 import { Module } from '@nestjs/common';
@@ -69,7 +74,6 @@ import { TelegrafI18nModule, TelegrafI18nMiddlewareProvider, TelegrafI18nContext
     ],
 })
 export class TelegramModule {}
-
 ```
 
 ## Usage
