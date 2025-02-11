@@ -19,7 +19,7 @@ export class TelegrafI18nContext<K = Record<string, unknown>> extends TelegrafCo
         options?: TranslateOptions
     ): R | string {
         if (!this._i18n) {
-            this.logger.warn(`i18n was not initialized for this Telegraf context. Cannot translate ${key}`);
+            this.logger.warn(`i18n was not initialized for this Telegraf context. Cannot translate key='${key}'`);
             return key as string; // Fallback: Return the key itself
         }
         return this._i18n.translate<P, R>(key, options);
