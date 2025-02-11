@@ -91,7 +91,7 @@ import { TelegrafI18nContext } from 'nestjs-telegraf-i18n';
 export class BotUpdate {
     @Start()
     async start_command(@Ctx() ctx: TelegrafI18nContext) {
-        const internationalized_message = ctx.i18n.t("i18n.menus.hello.message");
+        const internationalized_message = ctx.t("i18n.menus.hello.message");
         await ctx.reply(internationalized_message);
     }
 }
@@ -101,7 +101,7 @@ If you have multiple Telegraf context types that you want to use, chain them wit
 
 ```typescript
 import {Command, Ctx, Update} from 'nestjs-telegraf';
-import {Scenes} from "telegraf";
+import { Scenes } from "telegraf";
 import { TelegrafI18nContext } from 'nestjs-telegraf-i18n';
 
 @Update()
@@ -109,7 +109,7 @@ export class BotUpdate {
     @Command('hello')
     async helloCommand(@Ctx() ctx: Scenes.WizardContext & TelegrafI18nContext) {
         // You have access to both the WizardContext and TelegrafI18nContext internals
-        const internationalized_message = ctx.i18n.t("i18n.menus.hello.message");
+        const internationalized_message = ctx.t("i18n.menus.hello.message");
         await ctx.reply(internationalized_message);
         await ctx.scene.enter('some_scene');
     }
@@ -132,7 +132,7 @@ export class BotUpdate {
         @InjectBot() private readonly bot: Telegraf<TelegrafI18nContext>
     ) {
         this.bot.help((ctx) => {
-                const message = ctx.i18n.t("i18n.menus.help.message");
+                const message = ctx.t("i18n.menus.help.message");
                 ctx.reply(message)
             }
         )
@@ -146,15 +146,11 @@ You can use the built in [type safety features from nestjs-i18n](https://nestjs-
 Follow their instructions to generate the translation types, and you can pass them to the extended context.
 
 ```typescript
-import { Ctx, Start, Update } from 'nestjs-telegraf';
-import { I18nTranslations } from './generated/i18n.generated';
-import { TelegrafI18nContext } from 'nestjs-telegraf-i18n';
-
 @Update()
 export class BotUpdate {
     @Start()
     async start_command(@Ctx() ctx: TelegrafI18nContext<I18nTranslations>) {
-        const internationalized_message = ctx.i18n.t("i18n.menus.hello.message");
+        const internationalized_message = ctx.t("i18n.menus.hello.message");
         await ctx.reply(internationalized_message);
     }
 }
@@ -162,21 +158,64 @@ export class BotUpdate {
 
 The same applies to native bot injection.
 ```typescript
-import { I18nTranslations } from './generated/i18n.generated';
-import { InjectBot, Update } from "nestjs-telegraf";
-import { Telegraf } from "telegraf";
-import { TelegrafI18nContext } from 'nestjs-telegraf-i18n';
-
 @Update()
 export class BotUpdate {
     constructor(
         @InjectBot() private readonly bot: Telegraf<TelegrafI18nContext<I18nTranslations>>
     ) {
         this.bot.help((ctx) => {
-                const message = ctx.i18n.t("i18n.menus.help.message");
+                const message = ctx.t("i18n.menus.help.message");
                 ctx.reply(message)
             }
         )
     }
 }
+```
+
+## Using nestjs-telegraf-i18n with other telegraf middlewares
+If you want to have the access to i18n in your other telegraf middlewares you can easily do that by providing the I18nContext.
+Make sure you initialize the i18n middleware (put it first in the array) before the middleware where you want to use it.
+
+E.g. your custom middleware
+```typescript
+import { Middleware } from 'telegraf';
+import { TelegrafI18nContext } from 'nestjs-telegraf-i18n';
+
+const WHITELISTED_USERS: number[] = [123456789, 987654321];
+
+export const whitelistMiddleware: Middleware<TelegrafI18nContext> = async (ctx: TelegrafI18nContext, next) => {
+    if (!ctx.from) {
+        return;
+    }
+
+    if (WHITELISTED_USERS.includes(ctx.from.id)) {
+        await next();
+    } else {
+        await ctx.reply(ctx.t('errors.userNotWhitedMessage'));
+    }
+};
+```
+
+Make sure to put the telegrafI18nMiddleware before the custom middleware
+
+```typescript
+@Module({
+  imports: [
+    TelegrafI18nModule,
+    TelegrafModule.forRootAsync({
+      inject: [TelegrafI18nMiddlewareProvider],
+      useFactory: (telegrafI18nMiddlewareProvider: TelegrafI18nMiddlewareProvider) => ({
+        token: "<your_bot_token>",
+        options: {
+          contextType: TelegrafI18nContext,
+        },
+        middlewares: [
+          telegrafI18nMiddlewareProvider.telegrafI18nMiddleware,
+          whitelistMiddleware
+        ],
+      }),
+    }),
+  ],
+})
+export class TelegramModule {}
 ```
