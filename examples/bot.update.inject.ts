@@ -9,7 +9,7 @@ export class BotUpdate {
       @InjectBot() private readonly bot: Telegraf<TelegrafI18nContext>
   ) {
     this.bot.help((ctx) => {
-          const message = ctx.i18n.t("i18n.menus.help.message");
+          const message = ctx.t("i18n.menus.help.message");
           ctx.reply(message)
         }
     )

@@ -7,7 +7,7 @@ import { TelegrafI18nContext } from '../src';
 export class BotUpdate {
   @Start()
   async start_command(@Ctx() ctx: TelegrafI18nContext<I18nTranslations>) {
-    const internationalized_message = ctx.i18n.t("i18n.menus.hello.message");
+    const internationalized_message = ctx.t("i18n.menus.hello.message");
     await ctx.reply(internationalized_message);
   }
 }

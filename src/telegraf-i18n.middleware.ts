@@ -23,7 +23,7 @@ export class TelegrafI18nMiddlewareProvider<K = Record<string, unknown>> {
             this.logger.warn(TelegrafI18nMiddlewareProvider.INVALID_CONTEXT_WARNING);
             return next();
         }
-        (ctx as TelegrafI18nContext<K>).i18n = new I18nContext<K>(language, this.i18nService);
+        ctx.setI18n(new I18nContext<K>(language, this.i18nService));
         await next();
     }
 }
