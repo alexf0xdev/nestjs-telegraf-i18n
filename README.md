@@ -6,23 +6,11 @@ Use your favorite package manager
 ```shell
 npm install nestjs-telegraf-i18n
 ```
-```shell
-yarn add nestjs-telegraf-i18n
-```
-```shell
-pnpm add nestjs-telegraf-i18n
-```
 
 ## Prerequisites
-Make sure you have nestjs-telegraf, nestjs-i18n, and telegraf installed
+Make sure you have nestjs-telegraf, nestjs-i18n installed
 ```shell
-npm install nestjs-telegraf telegraf nestjs-i18n
-```
-```shell
-yarn add nestjs-telegraf telegraf nestjs-i18n
-```
-```shell
-pnpm add nestjs-telegraf telegraf nestjs-i18n
+npm install nestjs-telegraf nestjs-i18n
 ```
 
 ## Initialization
