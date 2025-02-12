@@ -1,4 +1,4 @@
-# nestjs-telegraf-i18n
+# Nestjs Telegraf I18n ![npm](https://img.shields.io/npm/v/nestjs-telegraf-i18n) ![npm](https://img.shields.io/npm/dm/nestjs-telegraf-i18n) ![Last Commit](https://img.shields.io/github/last-commit/sgerodes/nestjs-telegraf-i18n) ![NPM](https://img.shields.io/npm/l/nestjs-telegraf-i18n)
 
 Seamless integration of [nestjs-telegraf](https://www.npmjs.com/package/nestjs-telegraf) and [nestjs-i18n](https://www.npmjs.com/package/nestjs-i18n)
 
