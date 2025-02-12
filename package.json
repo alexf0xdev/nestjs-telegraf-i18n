@@ -2,6 +2,8 @@
   "name": "nestjs-telegraf-i18n",
   "version": "0.6.3",
   "description": "I18n integration for NestJS Telegraf",
+  "author": "Sergey Gerodes <gerodes.it@gmail.com> (https://sergeygerodes.xyz/)",
+  "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -18,34 +20,6 @@
       "ts",
       "js"
     ]
-  },
-  "keywords": [
-    "nestjs",
-    "nest",
-    "nestjs-module",
-    "telegraf",
-    "telegram",
-    "bot",
-    "telegram bot",
-    "bot framework",
-    "telegram bot api",
-    "bot api",
-    "i18n",
-    "internationalization",
-    "internationalisation",
-    "internationalize",
-    "internationalise",
-    "international",
-    "locale"
-  ],
-  "author": "Sergey Gerodes <gerodes.it@gmail.com> (https://sergeygerodes.xyz/)",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/sgerodes/nestjs-telegraf-i18n.git"
-  },
-  "bugs": {
-    "url": "https://github.com/sgerodes/nestjs-telegraf-i18n/issues"
   },
   "devDependencies": {
     "@nestjs/common": "^10.4.15",
@@ -84,5 +58,31 @@
     "telegraf": {
       "optional": false
     }
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sgerodes/nestjs-telegraf-i18n.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sgerodes/nestjs-telegraf-i18n/issues"
+  },
+  "keywords": [
+    "nestjs",
+    "nest",
+    "nestjs-module",
+    "telegraf",
+    "telegram",
+    "bot",
+    "telegram bot",
+    "bot framework",
+    "telegram bot api",
+    "bot api",
+    "i18n",
+    "internationalization",
+    "internationalisation",
+    "internationalize",
+    "internationalise",
+    "international",
+    "locale"
+  ]
 }
