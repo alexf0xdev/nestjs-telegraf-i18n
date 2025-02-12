@@ -2,18 +2,18 @@
 
 Seamless integration of [nestjs-telegraf](https://www.npmjs.com/package/nestjs-telegraf) and [nestjs-i18n](https://www.npmjs.com/package/nestjs-i18n)
 
-Use your favorite package manager
+Install nestjs-telegraf-i18n
 ```shell
-npm install nestjs-telegraf-i18n
+npm i nestjs-telegraf-i18n
 ```
 
 ## Prerequisites
 Make sure you have nestjs-telegraf, nestjs-i18n installed
 ```shell
-npm install nestjs-telegraf nestjs-i18n
+npm i nestjs-telegraf nestjs-i18n
 ```
 
-## Initialization
+## Configuration
 
 ### Nestjs-i18n Module
 Initialize your I18nModule as you would usually do. 
@@ -88,7 +88,7 @@ export class BotUpdate {
 If you have multiple Telegraf context types that you want to use, chain them with `&`.
 
 ```typescript
-import {Command, Ctx, Update} from 'nestjs-telegraf';
+import { Command, Ctx, Update } from 'nestjs-telegraf';
 import { Scenes } from "telegraf";
 import { TelegrafI18nContext } from 'nestjs-telegraf-i18n';
 
