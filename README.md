@@ -2,6 +2,14 @@
 
 Seamless integration of [nestjs-telegraf](https://www.npmjs.com/package/nestjs-telegraf) and [nestjs-i18n](https://www.npmjs.com/package/nestjs-i18n)
 
+```typescript
+handle_start_command(ctx: TelegrafI18nContext) { 
+    // Translates the message into the user specific language automatically
+    const internationalized_message = ctx.t("i18n.menus.hello.message");
+    await ctx.reply(internationalized_message);
+}
+```
+
 Install nestjs-telegraf-i18n
 ```shell
 npm i nestjs-telegraf-i18n
