@@ -42,7 +42,7 @@ export class AppModule {}
 - Add TelegrafI18nModule to the imports
 - Only async setups for the TelegrafModule are possible. Use TelegrafModule.forRootAsync(...)
 - Inject the TelegrafI18nMiddlewareProvider
-- Provide the Telegraf Module with the i18n extended context
+- Provide to the Telegraf Module the TelegrafI18nContext
 - Add the telegrafI18nMiddleware to the middleware array
 
 The new middleware that will combine the i18n context and the telegraf context.
@@ -214,4 +214,12 @@ Make sure to put the telegrafI18nMiddleware before the custom middleware
   ],
 })
 export class TelegramModule {}
+```
+
+## I18nContext
+If you need the I18nContext object you can use the getter
+```typescript
+    async somefuntion(ctx: TelegrafI18nContext) {
+        const i18nContext = ctx.i18n();
+    }
 ```
