@@ -1,6 +1,7 @@
 # Nestjs Telegraf I18n ![npm](https://img.shields.io/npm/v/nestjs-telegraf-i18n) ![npm](https://img.shields.io/npm/dm/nestjs-telegraf-i18n) ![Last Commit](https://img.shields.io/github/last-commit/sgerodes/nestjs-telegraf-i18n) ![NPM](https://img.shields.io/npm/l/nestjs-telegraf-i18n)
 
-Seamless integration of [nestjs-telegraf](https://www.npmjs.com/package/nestjs-telegraf) and [nestjs-i18n](https://www.npmjs.com/package/nestjs-i18n)
+Seamless integration of [nestjs-telegraf](https://www.npmjs.com/package/nestjs-telegraf) and [nestjs-i18n](https://www.npmjs.com/package/nestjs-i18n).
+A middleware that merges both contexts.
 
 ```typescript
 handle_start_command(ctx: TelegrafI18nContext) { 
@@ -21,7 +22,7 @@ Make sure you have nestjs-telegraf, nestjs-i18n installed
 npm i nestjs-telegraf nestjs-i18n
 ```
 
-## Configuration
+## Set up
 
 ### Nestjs-i18n Module
 Initialize your I18nModule as you would usually do. 
@@ -44,8 +45,6 @@ export class AppModule {}
 - Inject the TelegrafI18nMiddlewareProvider
 - Provide to the Telegraf Module the TelegrafI18nContext
 - Add the telegrafI18nMiddleware to the middleware array
-
-The new middleware that will combine the i18n context and the telegraf context.
 
 ```typescript
 import { Module } from '@nestjs/common';
@@ -77,6 +76,8 @@ export class TelegramModule {}
 The middleware injects the i18n object into the Telegraf context with the context-specific language configuration. 
 
 In your function make the ctx type aware that it has the i18n object by providing the type `TelegrafI18nContext`
+
+Use `ctx.t("<your_i18n_key>")` or `ctx.translate("<your_i18n_key>")` for the translations.
 
 
 ```typescript
