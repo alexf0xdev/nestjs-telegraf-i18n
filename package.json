@@ -1,6 +1,6 @@
 {
   "name": "nestjs-telegraf-i18n",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "I18n integration for NestJS Telegraf",
   "author": "Sergey Gerodes <gerodes.it@gmail.com> (https://sergeygerodes.xyz/)",
   "license": "MIT",
