@@ -4,7 +4,7 @@ import { I18nContextGetterPatcher, TelegrafI18nContextGetterPatcher } from "./i1
 
 @Global()
 @Module({
-    providers: [TelegrafI18nMiddlewareProvider, TelegrafI18nContextGetterPatcher],
+    providers: [TelegrafI18nMiddlewareProvider, TelegrafI18nContextGetterPatcher, I18nContextGetterPatcher],
     exports: [TelegrafI18nMiddlewareProvider, TelegrafI18nContextGetterPatcher, I18nContextGetterPatcher],
 })
 export class TelegrafI18nModule {}
