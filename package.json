@@ -1,12 +1,13 @@
 {
   "name": "nestjs-telegraf-i18n",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "description": "I18n integration for NestJS Telegraf",
   "author": "Sergey Gerodes <gerodes.it@gmail.com> (https://sergeygerodes.xyz/)",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
+    "format": "prettier --write src/**/*.ts",
     "build": "tsc",
     "prepublishOnly": "pnpm run build",
     "test": "jest",
@@ -31,6 +32,7 @@
     "nestjs-i18n": "^10.5.0",
     "nestjs-telegraf": "^2.8.1",
     "nestjs-telegraf-i18n": "^0.4.1",
+    "prettier": "^3.5.3",
     "telegraf": "^4.16.3",
     "ts-jest": "^29.2.5",
     "typescript": "^5.7.3"
