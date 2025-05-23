@@ -54,10 +54,10 @@ export class TelegrafI18nContext<
    * @param options - Optional translation and reply options.
    */
   public async replyWithTranslation<P extends Path<K>, R = PathValue<K, P>>(
-      key: P,
-      options?: TranslateOptions & {
-        replyOptions?: Parameters<TelegrafContext['reply']>[1];
-      },
+    key: P,
+    options?: TranslateOptions & {
+      replyOptions?: Parameters<TelegrafContext["reply"]>[1];
+    },
   ): Promise<void> {
     const message = this.t<P, R>(key, options);
     await this.reply(String(message), options?.replyOptions);
@@ -67,12 +67,11 @@ export class TelegrafI18nContext<
    * Shorthand for `replyWithTranslation()`. Translates the given key and sends it as a reply message using `ctx.reply`.
    */
   public async tReply<P extends Path<K>, R = PathValue<K, P>>(
-      key: P,
-      options?: TranslateOptions & {
-        replyOptions?: Parameters<TelegrafContext['reply']>[1];
-      },
+    key: P,
+    options?: TranslateOptions & {
+      replyOptions?: Parameters<TelegrafContext["reply"]>[1];
+    },
   ): Promise<void> {
-    return this.replyWithTranslation(key, options);
+    return this.replyWithTranslation<P, R>(key, options);
   }
-
 }
