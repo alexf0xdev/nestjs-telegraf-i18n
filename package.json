@@ -10,7 +10,10 @@
     "format": "prettier --write src/**/*.ts",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "build": "tsc",
+    "version:patch": "pnpm version patch",
+    "version:minor": "pnpm version minor",
     "prepublishOnly": "pnpm run build",
+    "publish": "pnpm publish",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage"
