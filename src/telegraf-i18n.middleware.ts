@@ -17,8 +17,11 @@ export class TelegrafI18nMiddlewareProvider<K = Record<string, unknown>> {
   }
 
   async telegrafI18nMiddleware(ctx: Context, next: () => Promise<void>) {
+    // const language: string =
+    //     ctx?.from?.language_code || this.getFallbackLanguage();
     const language: string =
-      ctx?.from?.language_code || this.getFallbackLanguage();
+        ctx?.from?.language_code || (this.i18nService as any).i18nOptions.fallbackLanguage;
+
     if (!(ctx instanceof TelegrafI18nContext)) {
       this.logger.warn(TelegrafI18nMiddlewareProvider.INVALID_CONTEXT_WARNING);
       return next();
@@ -27,18 +30,18 @@ export class TelegrafI18nMiddlewareProvider<K = Record<string, unknown>> {
     await next();
   }
 
-  getFallbackLanguage(): string {
-    let fallbackLang = "en";
-    if (
-      this.i18nService &&
-      "getFallbackLanguage" in this.i18nService &&
-      typeof (this.i18nService as any).getFallbackLanguage === "function"
-    ) {
-      const resolved = (this.i18nService as any).getFallbackLanguage();
-      if (typeof resolved === "string" && resolved.trim().length > 0) {
-        fallbackLang = resolved;
-      }
-    }
-    return fallbackLang;
-  }
+  // getFallbackLanguage(): string {
+  //   let fallbackLang = "en";
+  //   if (
+  //     this.i18nService &&
+  //     "getFallbackLanguage" in this.i18nService &&
+  //     typeof (this.i18nService as any).getFallbackLanguage === "function"
+  //   ) {
+  //     const resolved = (this.i18nService as any).getFallbackLanguage();
+  //     if (typeof resolved === "string" && resolved.trim().length > 0) {
+  //       fallbackLang = resolved;
+  //     }
+  //   }
+  //   return fallbackLang;
+  // }
 }
