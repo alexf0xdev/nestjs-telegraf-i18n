@@ -17,9 +17,9 @@ export class TelegrafI18nMiddlewareProvider<K = Record<string, unknown>> {
   }
 
   async telegrafI18nMiddleware(ctx: Context, next: () => Promise<void>) {
-    const language: string =
-      ctx?.from?.language_code ||
-      (this.i18nService as any).getFallbackLanguage();
+    const fallbackLang =
+      (this.i18nService as any).getFallbackLanguage?.() ?? "en";
+    const language: string = ctx?.from?.language_code || fallbackLang;
     if (!(ctx instanceof TelegrafI18nContext)) {
       this.logger.warn(TelegrafI18nMiddlewareProvider.INVALID_CONTEXT_WARNING);
       return next();
