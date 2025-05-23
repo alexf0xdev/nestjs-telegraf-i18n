@@ -20,7 +20,7 @@ export class TelegrafI18nMiddlewareProvider<K = Record<string, unknown>> {
     // const language: string =
     //     ctx?.from?.language_code || this.getFallbackLanguage();
     const language: string =
-        ctx?.from?.language_code || (this.i18nService as any).i18nOptions.fallbackLanguage;
+        ctx?.from?.language_code || (this.i18nService as any)?.i18nOptions?.fallbackLanguage || "en";
 
     if (!(ctx instanceof TelegrafI18nContext)) {
       this.logger.warn(TelegrafI18nMiddlewareProvider.INVALID_CONTEXT_WARNING);
