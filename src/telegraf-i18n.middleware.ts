@@ -1,7 +1,9 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { I18nContext, I18nService } from "nestjs-i18n";
-import { Context } from "telegraf";
-import { TelegrafI18nContext } from "./telegraf-i18n.context";
+import {
+  TelegrafContextWithSession,
+  TelegrafI18nContext,
+} from "./telegraf-i18n.context";
 
 @Injectable()
 export class TelegrafI18nMiddlewareProvider<K = Record<string, unknown>> {
@@ -16,8 +18,12 @@ export class TelegrafI18nMiddlewareProvider<K = Record<string, unknown>> {
     this.telegrafI18nMiddleware = this.telegrafI18nMiddleware.bind(this);
   }
 
-  async telegrafI18nMiddleware(ctx: Context, next: () => Promise<void>) {
+  async telegrafI18nMiddleware(
+    ctx: TelegrafContextWithSession,
+    next: () => Promise<void>
+  ) {
     const language: string =
+      ctx?.session?.lang ||
       ctx?.from?.language_code ||
       (this.i18nService as any)?.i18nOptions?.fallbackLanguage ||
       "en";

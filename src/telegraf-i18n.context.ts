@@ -1,10 +1,14 @@
-import { Context as TelegrafContext } from "telegraf";
-import { I18nContext, Path, PathValue, TranslateOptions } from "nestjs-i18n";
 import { Logger } from "@nestjs/common";
+import { I18nContext, Path, PathValue, TranslateOptions } from "nestjs-i18n";
+import { Context as TelegrafContext } from "telegraf";
+
+export class TelegrafContextWithSession extends TelegrafContext {
+  session?: { lang?: string };
+}
 
 export class TelegrafI18nContext<
   K = Record<string, unknown>,
-> extends TelegrafContext {
+> extends TelegrafContextWithSession {
   private readonly logger = new Logger(this.constructor.name);
   protected _i18n?: I18nContext<K>;
 
@@ -26,11 +30,11 @@ export class TelegrafI18nContext<
    */
   public translate<P extends Path<K>, R = PathValue<K, P>>(
     key: P,
-    options?: TranslateOptions,
+    options?: TranslateOptions
   ): R | string {
     if (!this._i18n) {
       this.logger.warn(
-        `i18n was not initialized for this Telegraf context. Cannot translate key='${key}'`,
+        `i18n was not initialized for this Telegraf context. Cannot translate key='${key}'`
       );
       return key as string; // Fallback: Return the key itself
     }
@@ -42,7 +46,7 @@ export class TelegrafI18nContext<
    */
   public t<P extends Path<K>, R = PathValue<K, P>>(
     key: P,
-    options?: TranslateOptions,
+    options?: TranslateOptions
   ): R | string {
     return this.translate<P, R>(key, options);
   }
@@ -57,7 +61,7 @@ export class TelegrafI18nContext<
     key: P,
     options?: TranslateOptions & {
       replyOptions?: Parameters<TelegrafContext["reply"]>[1];
-    },
+    }
   ): Promise<void> {
     const message = this.t<P, R>(key, options);
     await this.reply(String(message), options?.replyOptions);
@@ -70,8 +74,17 @@ export class TelegrafI18nContext<
     key: P,
     options?: TranslateOptions & {
       replyOptions?: Parameters<TelegrafContext["reply"]>[1];
-    },
+    }
   ): Promise<void> {
     return this.replyWithTranslation<P, R>(key, options);
+  }
+
+  /**
+   * Set language
+   *
+   * @param lang - The language to change to
+   */
+  public async setLanguage(lang: string): Promise<void> {
+    this.session!.lang = lang;
   }
 }
