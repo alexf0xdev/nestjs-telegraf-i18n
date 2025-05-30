@@ -3,7 +3,7 @@ import { I18nContext, Path, PathValue, TranslateOptions } from "nestjs-i18n";
 import { Context as TelegrafContext } from "telegraf";
 
 export class TelegrafContextWithSession extends TelegrafContext {
-  session?: { lang?: string };
+  session?: { lang?: string; fallbackLang?: string };
 }
 
 export class TelegrafI18nContext<
@@ -38,7 +38,10 @@ export class TelegrafI18nContext<
       );
       return key as string; // Fallback: Return the key itself
     }
-    return this._i18n.translate<P, R>(key, options);
+
+    const lang = this.getLanguage();
+
+    return this._i18n.translate<P, R>(key, { lang, ...options });
   }
 
   /**
@@ -63,7 +66,9 @@ export class TelegrafI18nContext<
       replyOptions?: Parameters<TelegrafContext["reply"]>[1];
     }
   ): Promise<void> {
-    const message = this.t<P, R>(key, options);
+    const lang = this.getLanguage();
+
+    const message = this.t<P, R>(key, { lang, ...options });
     await this.reply(String(message), options?.replyOptions);
   }
 
@@ -80,11 +85,22 @@ export class TelegrafI18nContext<
   }
 
   /**
+   * Get language
+   */
+  public getLanguage(): string {
+    return (
+      this?.session?.lang! ||
+      this?.from?.language_code! ||
+      this.session?.fallbackLang!
+    );
+  }
+
+  /**
    * Set language
    *
    * @param lang - The language to change to
    */
-  public async setLanguage(lang: string): Promise<void> {
+  public setLanguage(lang: string): void {
     this.session!.lang = lang;
   }
 }
