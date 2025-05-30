@@ -69,6 +69,7 @@ export class TelegrafI18nContext<
     const lang = this.getLanguage();
 
     const message = this.t<P, R>(key, { lang, ...options });
+
     await this.reply(String(message), options?.replyOptions);
   }
 

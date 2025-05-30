@@ -32,7 +32,7 @@ export class TelegrafI18nMiddlewareProvider<K = Record<string, unknown>> {
       return next();
     }
 
-    const lang = await ctx.getLanguage();
+    const lang = ctx.getLanguage();
 
     ctx.setI18n(new I18nContext<K>(lang, this.i18nService));
     await next();
