@@ -13,7 +13,11 @@ export class TelegrafI18nContext<
   protected _i18n?: I18nContext<K>;
 
   i18n(): I18nContext<K> | undefined {
-    return this._i18n;
+    const lang = this.getLanguage();
+
+    let { translate, t, validate, i18n, lang: _lang, ...rest } = this._i18n!;
+
+    return { translate, t, i18n, validate, lang, ...rest };
   }
 
   setI18n(i18n: I18nContext<K>) {

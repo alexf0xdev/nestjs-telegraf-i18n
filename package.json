@@ -1,6 +1,6 @@
 {
   "name": "@alexf0xdev/nestjs-telegraf-i18n",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "I18n integration for NestJS Telegraf with minor changes.",
   "author": "alexf0xdev (https://alexf0x.dev/)",
   "license": "MIT",
