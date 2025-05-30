@@ -90,7 +90,8 @@ export class TelegrafI18nContext<
   }
 
   /**
-   * Get language
+   * Get language.
+   * @returns Current language.
    */
   public getLanguage(): string {
     return (
@@ -101,9 +102,9 @@ export class TelegrafI18nContext<
   }
 
   /**
-   * Set language
+   * Set language.
    *
-   * @param lang - The language to change to
+   * @param lang - The language to change to.
    */
   public setLanguage(lang: string): void {
     this.session!.lang = lang;
