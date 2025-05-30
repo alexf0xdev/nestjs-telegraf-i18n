@@ -15,7 +15,7 @@ export class TelegrafI18nContext<
   i18n(): I18nContext<K> | undefined {
     const lang = this.getLanguage();
 
-    let { translate, t, validate, i18n, lang: _lang, ...rest } = this._i18n!;
+    const { translate, t, validate, i18n, lang: _lang, ...rest } = this._i18n!;
 
     return { translate, t, i18n, validate, lang, ...rest };
   }
