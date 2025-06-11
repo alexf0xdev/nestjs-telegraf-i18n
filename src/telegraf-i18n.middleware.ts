@@ -32,7 +32,7 @@ export class TelegrafI18nMiddlewareProvider<K = Record<string, unknown>> {
     const fallbackLang = (this.i18nService as any)?.i18nOptions
       ?.fallbackLanguage;
 
-    ctx.session!.fallbackLang = fallbackLang ?? "en";
+    ctx.session.fallbackLang = fallbackLang ?? "en";
 
     const lang = ctx.getLanguage();
 
