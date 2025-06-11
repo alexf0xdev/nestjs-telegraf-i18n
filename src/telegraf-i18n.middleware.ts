@@ -22,15 +22,17 @@ export class TelegrafI18nMiddlewareProvider<K = Record<string, unknown>> {
     ctx: TelegrafContextWithSession,
     next: () => Promise<void>
   ) {
-    const fallbackLang = (this.i18nService as any)?.i18nOptions
-      ?.fallbackLanguage;
-
-    ctx.session!.fallbackLang = fallbackLang || "en";
-
     if (!(ctx instanceof TelegrafI18nContext)) {
       this.logger.warn(TelegrafI18nMiddlewareProvider.INVALID_CONTEXT_WARNING);
       return next();
     }
+
+    if (!ctx.session) ctx.session = {};
+
+    const fallbackLang = (this.i18nService as any)?.i18nOptions
+      ?.fallbackLanguage;
+
+    ctx.session!.fallbackLang = fallbackLang ?? "en";
 
     const lang = ctx.getLanguage();
 
